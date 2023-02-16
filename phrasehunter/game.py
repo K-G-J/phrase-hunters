@@ -39,7 +39,7 @@ class Game:
 
     def get_guess(self):
         while True:
-            guess = input("Please guess a letter:  ")
+            guess = (input("Please guess a letter:  ")).lower()
             if not guess.isalpha():
                 print("Oops 😕 ... that is not a letter")
                 continue
@@ -60,8 +60,3 @@ class Game:
             return print(f'\nYou win! 🌟\n{self.active_phrase}\nCongrats you guessed the phrase! 🥳\n')
         else:
             return print('\nSorry you lost 😕\nbetter luck next time!\n')
-
-
-if __name__ == '__main__':
-    game = Game()
-    game.start()
