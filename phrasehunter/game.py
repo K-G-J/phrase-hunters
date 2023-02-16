@@ -1,6 +1,5 @@
-import random
-from phrasehunter.name import NAME
 from phrasehunter.phrase import Phrase
+import random
 
 
 class Game:
@@ -32,7 +31,8 @@ class Game:
                     game_active = False
 
     def welcome(self):
-        return print(f'\nWelcome {NAME} to the Phrase Hunters game! 😄\n')
+        name = input("\nWhat is your name?  ")
+        return print(f"\nWelcome {name} to the Phrase Hunters game! 😄\n")
 
     def get_random_phrase(self):
         return self.phrases[random.randint(0, len(self.phrases) - 1)]

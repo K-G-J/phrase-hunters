@@ -16,7 +16,7 @@ class Phrase:
                 phrase_display[index] = ' '
             if letter in self.guessed_letters:
                 phrase_display[index] = letter
-        return print(f"Current Progress:\n{''.join(phrase_display)}")
+        return print(f"\nCurrent Progress:\n\n{''.join(phrase_display)}\n")
 
     def check_letter(self, letter):
         return letter in self.correct_letters
