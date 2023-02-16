@@ -1,30 +1,58 @@
-"""
-Create the Game class in the game.py file
-The class should include an initializer or def __init__ method that sets the following attributes:
+import random
+from phrase import Phrase
 
-    missed: used to track the number of incorrect guesses by the user. The initial value is 0 since no guesses have been made at the start of the game.
-    phrases: a list of five Phrase objects to use with the game. A phrase should only include letters and spaces -- no numbers, punctuation, or other special characters.
-    active_phrase: This is the Phrase object that's currently in play. The initial value will be None. Within the start() method, this property will be set to the Phrase object returned from a call to the get_random_phrase() method.
-    guesses: This is a list that contains the letters guessed by the user.
 
-The class should also have these methods:
+class Game:
+    def __init__(self):
+        self.missed = 0
+        self.phrases = ['my cup of tea', 'a little bird told me',
+                        'happy as a clam', 'down to earth', 'a dime a dozen']
+        self.active_phrase = None
+        self.guesses = []
 
-    start(): Calls the welcome method, creates the game loop, calls the get_guess method, adds the user's guess to guesses, increments the number of missed by one if the guess is incorrect, calls the game_over method.
-        - For each run of the game, a random phrase should be selected from a list of phrases (no punctuation or numbers in phrases, and a phrase must be comprised of more than one word).
-        - Before a player has made their first guess, the active phrase should be displayed to the player with underscores as placeholders for the letters. Any spaces between words in the phrase must be clearly visible to the player.
+    def start(self):
+        self.welcome()
+        self.active_phrase = Phrase(self.get_random_phrase())
+        game_active = True
+        while game_active:
+            guess = self.get_guess()
+            if self.active_phrase.check_letter(guess):
+                print("\nYay! ⭐️ You guessed a letter right!\n")
+                if self.active_phrase.check_complete():
+                    self.game_over('win')
+                    game_active = False
+            else:
+                self.missed += 1
+                print(
+                    f"\nSorry 😕 {guess} is not in the phrase\nYou have {5 - self.missed} lives remaining\n")
+                if self.missed == 5:
+                    self.game_over('loss')
+                    game_active = False
 
-    get_random_phrase(): this method randomly retrieves one of the phrases stored in the phrases list and returns it.
+    def welcome(self):
+        name = input("What is your name?  ")
+        return print(f'\nWelcome {name} to the Phrase Hunters game! 😄\n')
 
-    welcome(): this method prints a friendly welcome message to the user at the start of the game
+    def get_random_phrase(self):
+        return self.phrases[random.randint(0, len(self.phrases) - 1)]
 
-    get_guess(): this method gets the guess from a user and records it in the guesses attribute
-        - The game must prompt the player's guess on every turn.
-        - After every guess, the game should check whether or not the guessed letter is in the active phrase:
-            - After every correct guess, the underscored phrase should be displayed again with any correctly guessed letters in place of the associated underscore.
-            - After every incorrect guess, the number missed should increase by one. The game is over when the user has guessed incorrectly five times.
+    def get_guess(self):
+        while True:
+            guess = input("Please guess a letter:  ")
+            if not guess.isalpha():
+                print("Oops 😕 ... that is not a letter")
+                continue
+            elif guess in self.guesses:
+                print('You already guessed that letter!')
+                continue
+            else:
+                self.guesses.append(guess)
+                self.active_phrase.guessed_letters.append(guess)
+                self.active_phrase.display()
+            return guess
 
-    game_over(): this method displays a friendly win or loss message and ends the game.
-        - When the game is over, due to either win or loss, a message must be displayed to the user, and the game must not prompt for another guess.
-
-The Game instance might be responsible for things like starting the game loop, getting the player's input() guesses to pass to a Phrase object to perform its responsibilities against, determining if a win/loss happens after the player runs out of turns or the phrase is completely guessed.
-"""
+    def game_over(self, outcome):
+        if outcome == 'win':
+            return print('\nYou win! 🌟\nCongrats you guessed the phrase! 🥳\n')
+        else:
+            return print('\nSorry you lost 😕\nbetter luck next time!\n')
