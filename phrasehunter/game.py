@@ -1,5 +1,5 @@
 import random
-from phrase import Phrase
+from phrasehunter.phrase import Phrase
 
 
 class Game:
@@ -56,3 +56,7 @@ class Game:
             return print('\nYou win! 🌟\nCongrats you guessed the phrase! 🥳\n')
         else:
             return print('\nSorry you lost 😕\nbetter luck next time!\n')
+
+if __name__ == '__main__':
+    game = Game()
+    game.start()
