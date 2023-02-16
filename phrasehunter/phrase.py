@@ -4,6 +4,9 @@ class Phrase:
         self.phrase = phrase.lower()
         self.correct_letters = list(set(self.phrase.replace(" ", "")))
         self.guessed_letters = []
+    
+    def __str__(self):
+        return self.phrase
 
     def display(self):
         split_phrase = list(self.phrase)
@@ -19,12 +22,4 @@ class Phrase:
         return letter in self.correct_letters
 
     def check_complete(self):
-        return set(self.correct_letters) == set(self.guessed_letters)
-
-
-# if __name__ == '__main__':
-#     # python3 phrasehunter/phrase.py
-#     phrase = Phrase('Hello World')
-#     print(phrase.display())
-#     print(phrase.check_letter('w'))
-#     print(phrase.check_complete())
+        return set(self.correct_letters).issubset(set(self.guessed_letters))

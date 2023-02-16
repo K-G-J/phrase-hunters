@@ -1,4 +1,5 @@
 import random
+from phrasehunter.name import NAME
 from phrasehunter.phrase import Phrase
 
 
@@ -13,6 +14,7 @@ class Game:
     def start(self):
         self.welcome()
         self.active_phrase = Phrase(self.get_random_phrase())
+        self.active_phrase.display()
         game_active = True
         while game_active:
             guess = self.get_guess()
@@ -30,8 +32,7 @@ class Game:
                     game_active = False
 
     def welcome(self):
-        name = input("What is your name?  ")
-        return print(f'\nWelcome {name} to the Phrase Hunters game! 😄\n')
+        return print(f'\nWelcome {NAME} to the Phrase Hunters game! 😄\n')
 
     def get_random_phrase(self):
         return self.phrases[random.randint(0, len(self.phrases) - 1)]
@@ -41,6 +42,9 @@ class Game:
             guess = input("Please guess a letter:  ")
             if not guess.isalpha():
                 print("Oops 😕 ... that is not a letter")
+                continue
+            if len(guess) > 1:
+                print("Oops 😕 ... only guess one letter")
                 continue
             elif guess in self.guesses:
                 print('You already guessed that letter!')
@@ -53,9 +57,10 @@ class Game:
 
     def game_over(self, outcome):
         if outcome == 'win':
-            return print('\nYou win! 🌟\nCongrats you guessed the phrase! 🥳\n')
+            return print(f'\nYou win! 🌟\n{self.active_phrase}\nCongrats you guessed the phrase! 🥳\n')
         else:
             return print('\nSorry you lost 😕\nbetter luck next time!\n')
+
 
 if __name__ == '__main__':
     game = Game()

@@ -11,3 +11,4 @@ if __name__ == '__main__':
                 print('\nPlease enter either "y" or "n"')
         else:
             print("\nThank you for playing Phrase Hunters 👋\n")
+            break
